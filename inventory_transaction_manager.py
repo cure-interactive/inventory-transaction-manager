@@ -393,6 +393,40 @@ CUSTOM_FIELD_TARGETS = [
   CUSTOM_TARGET_ALIAS,
 ]
 
+FIELD_SCOPE_TX_TABLE = "tx_table"
+FIELD_SCOPE_ALIAS_TABLE = "alias_table"
+FIELD_SCOPE_OVERVIEW_INVENTORY = "overview_inventory"
+
+BUILTIN_FIELD_DEFS = [
+  {"id": "builtin:tx_table:id", "key": "id", "label": "ID", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_NUMBER, "description": "Transaction identity number.", "enum": [], "enabled": True, "removable": False, "enum_editable": False, "source": "system"},
+  {"id": "builtin:tx_table:date", "key": "date", "label": "Date", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_STRING, "description": "Transaction date.", "enum": [], "enabled": True, "removable": False, "enum_editable": False, "source": "system"},
+  {"id": "builtin:tx_table:sku", "key": "sku", "label": "SKU", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_STRING, "description": "Stock keeping unit identifier.", "enum": [], "enabled": True, "removable": False, "enum_editable": False, "source": "system"},
+  {"id": "builtin:tx_table:alias", "key": "alias", "label": "Alias", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_ALIAS, "type": CUSTOM_TYPE_STRING, "description": "Alias name resolved from the SKU.", "enum": [], "enabled": True, "removable": True, "enum_editable": False, "source": "system"},
+  {"id": "builtin:tx_table:type", "key": "type", "label": "Type", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_ENUM, "description": "Transaction kind.", "enum": [TX_PURCHASE, TX_SALE], "enabled": True, "removable": False, "enum_editable": False, "source": "system"},
+  {"id": "builtin:tx_table:qty", "key": "qty", "label": "Qty", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_NUMBER, "description": "Transaction quantity.", "enum": [], "enabled": True, "removable": False, "enum_editable": False, "source": "system"},
+  {"id": "builtin:tx_table:purchase_unit_cost", "key": "purchase_unit_cost", "label": "Purchase Unit Cost", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_NUMBER, "description": "Per-unit purchase cost for PURCHASE rows.", "enum": [], "enabled": True, "removable": False, "enum_editable": False, "source": "system"},
+  {"id": "builtin:tx_table:sale_unit_price", "key": "sale_unit_price", "label": "Sale Unit Price", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_NUMBER, "description": "Per-unit sale price for SALE rows.", "enum": [], "enabled": True, "removable": False, "enum_editable": False, "source": "system"},
+  {"id": "builtin:tx_table:purchase_total_cost", "key": "purchase_total_cost", "label": "Purchase Total Cost", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_NUMBER, "description": "Computed Qty x Purchase Unit Cost.", "enum": [], "enabled": True, "removable": True, "enum_editable": False, "source": "system"},
+  {"id": "builtin:tx_table:prev_avg_cost", "key": "prev_avg_cost", "label": "Prev Avg Cost", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_NUMBER, "description": "Weighted average cost before this transaction.", "enum": [], "enabled": True, "removable": True, "enum_editable": False, "source": "system"},
+  {"id": "builtin:tx_table:onhand_qty", "key": "onhand_qty", "label": "OnHand Qty", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_NUMBER, "description": "Computed on-hand quantity after this transaction.", "enum": [], "enabled": True, "removable": True, "enum_editable": False, "source": "system"},
+  {"id": "builtin:tx_table:avg_cost_after", "key": "avg_cost_after", "label": "Avg Cost", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_NUMBER, "description": "Weighted average cost after this transaction.", "enum": [], "enabled": True, "removable": True, "enum_editable": False, "source": "system"},
+  {"id": "builtin:tx_table:cogs", "key": "cogs", "label": "COGS", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_NUMBER, "description": "Computed cost of goods sold for SALE rows.", "enum": [], "enabled": True, "removable": True, "enum_editable": False, "source": "system"},
+  {"id": "builtin:tx_table:onhand_cost", "key": "onhand_cost", "label": "OnHand Cost", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_NUMBER, "description": "Computed on-hand inventory value after this transaction.", "enum": [], "enabled": True, "removable": True, "enum_editable": False, "source": "system"},
+  {"id": "builtin:tx_table:sales_rev", "key": "sales_rev", "label": "Sales Rev", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_NUMBER, "description": "Computed Qty x Sale Unit Price for SALE rows.", "enum": [], "enabled": True, "removable": True, "enum_editable": False, "source": "system"},
+  {"id": "builtin:tx_table:gross_profit", "key": "gross_profit", "label": "Gross Profit", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_NUMBER, "description": "Computed Sales Rev minus COGS for SALE rows.", "enum": [], "enabled": True, "removable": True, "enum_editable": False, "source": "system"},
+  {"id": "builtin:tx_table:note", "key": "note", "label": "Note", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_STRING, "description": "Free-form transaction note.", "enum": [], "enabled": True, "removable": True, "enum_editable": False, "source": "system"},
+  {"id": "builtin:alias_table:sku", "key": "sku", "label": "SKU", "scope": FIELD_SCOPE_ALIAS_TABLE, "target": CUSTOM_TARGET_ALIAS, "type": CUSTOM_TYPE_STRING, "description": "Alias SKU key.", "enum": [], "enabled": True, "removable": False, "enum_editable": False, "source": "system"},
+  {"id": "builtin:alias_table:name", "key": "name", "label": "Name", "scope": FIELD_SCOPE_ALIAS_TABLE, "target": CUSTOM_TARGET_ALIAS, "type": CUSTOM_TYPE_STRING, "description": "Alias display name.", "enum": [], "enabled": True, "removable": False, "enum_editable": False, "source": "system"},
+  {"id": "builtin:overview_inventory:sku", "key": "sku", "label": "SKU", "scope": FIELD_SCOPE_OVERVIEW_INVENTORY, "target": CUSTOM_TARGET_ALIAS, "type": CUSTOM_TYPE_STRING, "description": "Inventory overview SKU.", "enum": [], "enabled": True, "removable": False, "enum_editable": False, "source": "system"},
+  {"id": "builtin:overview_inventory:alias", "key": "alias", "label": "Alias", "scope": FIELD_SCOPE_OVERVIEW_INVENTORY, "target": CUSTOM_TARGET_ALIAS, "type": CUSTOM_TYPE_STRING, "description": "Inventory overview alias name.", "enum": [], "enabled": True, "removable": False, "enum_editable": False, "source": "system"},
+  {"id": "builtin:overview_inventory:onhand_qty", "key": "onhand_qty", "label": "OnHand Qty", "scope": FIELD_SCOPE_OVERVIEW_INVENTORY, "target": CUSTOM_TARGET_ALIAS, "type": CUSTOM_TYPE_NUMBER, "description": "Computed on-hand quantity.", "enum": [], "enabled": True, "removable": True, "enum_editable": False, "source": "system"},
+  {"id": "builtin:overview_inventory:avg_cost", "key": "avg_cost", "label": "Avg Cost", "scope": FIELD_SCOPE_OVERVIEW_INVENTORY, "target": CUSTOM_TARGET_ALIAS, "type": CUSTOM_TYPE_NUMBER, "description": "Computed weighted average cost.", "enum": [], "enabled": True, "removable": True, "enum_editable": False, "source": "system"},
+  {"id": "builtin:overview_inventory:onhand_cost", "key": "onhand_cost", "label": "OnHand Cost", "scope": FIELD_SCOPE_OVERVIEW_INVENTORY, "target": CUSTOM_TARGET_ALIAS, "type": CUSTOM_TYPE_NUMBER, "description": "Computed on-hand inventory value.", "enum": [], "enabled": True, "removable": True, "enum_editable": False, "source": "system"},
+  {"id": "builtin:overview_inventory:last_tx_date", "key": "last_tx_date", "label": "Last Tx Date", "scope": FIELD_SCOPE_OVERVIEW_INVENTORY, "target": CUSTOM_TARGET_ALIAS, "type": CUSTOM_TYPE_STRING, "description": "Date of the latest transaction for the SKU.", "enum": [], "enabled": True, "removable": True, "enum_editable": False, "source": "system"},
+  {"id": "builtin:overview_inventory:last_sale_price", "key": "last_sale_price", "label": "Last Sale Price", "scope": FIELD_SCOPE_OVERVIEW_INVENTORY, "target": CUSTOM_TARGET_ALIAS, "type": CUSTOM_TYPE_NUMBER, "description": "Latest sale price seen for the SKU.", "enum": [], "enabled": True, "removable": True, "enum_editable": False, "source": "system"},
+  {"id": "builtin:overview_inventory:status", "key": "status", "label": "Status", "scope": FIELD_SCOPE_OVERVIEW_INVENTORY, "target": CUSTOM_TARGET_ALIAS, "type": CUSTOM_TYPE_ENUM, "description": "Derived stock status.", "enum": ["IN STOCK", "OUT", "NEGATIVE (OVERSOLD)"], "enabled": True, "removable": True, "enum_editable": False, "source": "system"},
+]
+
 
 # =============================================================================
 # [🧰 Logging] cure-log-ish minimal console logger
@@ -726,6 +760,8 @@ class InventoryApp(ctk.CTk):
     # Custom per-SKU fields
     self.custom_fields_schema: List[Dict[str, Any]] = []
     self._custom_field_schema_map: Dict[str, Dict[str, Any]] = {}
+    self.field_overrides: Dict[str, Dict[str, Any]] = {}
+    self._field_registry_map: Dict[str, Dict[str, Any]] = {}
 
     # Guard flags for SKU/Alias UI syncing
     self._alias_sync_guard = False
@@ -1085,15 +1121,32 @@ class InventoryApp(ctk.CTk):
         out[key_s] = coerced
     return out
 
-  def _load_project_data_from_file(self, path: str) -> Tuple[List[Transaction], List[Dict[str, Any]], List[Dict[str, Any]]]:
+  def _normalize_field_overrides(self, raw: Any) -> Dict[str, Dict[str, Any]]:
+    if not isinstance(raw, dict):
+      return {}
+    builtin_map = {str(x.get("id") or ""): dict(x) for x in BUILTIN_FIELD_DEFS if str(x.get("id") or "")}
+    out: Dict[str, Dict[str, Any]] = {}
+    for field_id, item in raw.items():
+      field_id_s = str(field_id or "").strip()
+      if not field_id_s or field_id_s not in builtin_map or not isinstance(item, dict):
+        continue
+      base = builtin_map[field_id_s]
+      enabled = bool(item.get("enabled", base.get("enabled", True)))
+      if not bool(base.get("removable")):
+        enabled = True
+      out[field_id_s] = {"enabled": enabled}
+    return out
+
+  def _load_project_data_from_file(self, path: str) -> Tuple[List[Transaction], List[Dict[str, Any]], List[Dict[str, Any]], Dict[str, Dict[str, Any]]]:
     if not os.path.exists(path):
       Log.info(self.LOG_TAG, "Project data file does not exist yet; using empty defaults.", {"path": path})
-      return [], [], []
+      return [], [], [], {}
     Log.info(self.LOG_TAG, "Loading project data file.", {"path": path})
     with open(path, "r", encoding="utf-8") as f:
       raw = json.load(f)
 
     schema = self._normalize_custom_schema_entries(raw.get("custom_fields_schema", []))
+    field_overrides = self._normalize_field_overrides(raw.get("field_overrides", {}))
     legacy_alias_values_by_sku = raw.get("custom_field_values", {})
 
     txs: List[Transaction] = []
@@ -1131,8 +1184,9 @@ class InventoryApp(ctk.CTk):
       "tx_count": len(txs),
       "alias_count": len(aliases),
       "custom_field_count": len(schema),
+      "field_override_count": len(field_overrides),
     })
-    return txs, aliases, schema
+    return txs, aliases, schema, field_overrides
 
   def _save_project_data_to_file(
     self,
@@ -1140,17 +1194,20 @@ class InventoryApp(ctk.CTk):
     txs: List[Transaction],
     aliases: List[Dict[str, Any]],
     custom_schema: List[Dict[str, Any]],
+    field_overrides: Dict[str, Dict[str, Any]],
   ) -> None:
     Log.info(self.LOG_TAG, "Saving project data file.", {
       "path": path,
       "tx_count": len(txs or []),
       "alias_count": len(aliases or []),
       "custom_field_count": len(custom_schema or []),
+      "field_override_count": len(field_overrides or {}),
     })
     payload = {
       "transactions": [asdict(t) for t in txs],
       "aliases": list(aliases or []),
       "custom_fields_schema": list(custom_schema or []),
+      "field_overrides": dict(field_overrides or {}),
     }
     _write_json_atomic(path, payload)
 
@@ -1165,7 +1222,7 @@ class InventoryApp(ctk.CTk):
     self.project_dir = p
     self.project_data_path = self._project_data_file_for_dir(p)
     try:
-      txs, aliases, custom_schema = self._load_project_data_from_file(self.project_data_path)
+      txs, aliases, custom_schema, field_overrides = self._load_project_data_from_file(self.project_data_path)
     except Exception as e:
       Log.error(self.LOG_TAG, "Failed to load project data.", {"project_dir": p, "data_path": self.project_data_path, "error": str(e)})
       messagebox.showerror("Project Load Failed", str(e))
@@ -1178,6 +1235,7 @@ class InventoryApp(ctk.CTk):
     self.aliases_list = aliases
     self._rebuild_alias_map()
     self.custom_fields_schema = custom_schema
+    self.field_overrides = field_overrides
     self._rebuild_custom_field_schema_map()
 
     self.next_id = (max([t.id for t in self.transactions], default=0) + 1)
@@ -1216,6 +1274,7 @@ class InventoryApp(ctk.CTk):
       self.transactions,
       self.aliases_list,
       self.custom_fields_schema,
+      self.field_overrides,
     )
     self._refresh_aliases_ui()
     if schema_changed:
@@ -1263,7 +1322,7 @@ class InventoryApp(ctk.CTk):
         "Transactions": "Transactions: add/update/delete purchases & sales. This drives costing and the overview.",
         "Overview": "Overview: current inventory state (on-hand qty, WAC, totals) and optional summaries.",
         "Aliases": "Aliases: map friendly names to SKUs. Used in dropdowns and tables.",
-        "Custom Fields": "Custom Fields: define typed fields for transactions or aliases, including enum lists and tooltip descriptions.",
+        "Custom Fields": "Custom Fields: manage project custom fields plus built-in column visibility rules.",
       }
 
       for tab_name, tip in tip_by_tab.items():
@@ -1374,7 +1433,7 @@ class InventoryApp(ctk.CTk):
       (getattr(self, "btn_custom_schema_delete", None), "Delete Selected: remove the selected custom field definition and its saved values."),
       (getattr(self, "btn_custom_schema_up", None), "Move Up: shift the selected custom field earlier in display order."),
       (getattr(self, "btn_custom_schema_down", None), "Move Down: shift the selected custom field later in display order."),
-      (getattr(self, "custom_schema_tree", None), "Custom Fields table: schema definitions for target-specific transaction or alias fields."),
+      (getattr(self, "custom_schema_tree", None), "Custom Fields table: built-in field visibility plus target-specific custom schema definitions."),
     ]:
       _attach(w, msg)
 
@@ -2341,14 +2400,9 @@ class InventoryApp(ctk.CTk):
 
     all_custom_entries = self._get_all_custom_schema_in_display_order()
     tx_custom_columns = [str(x.get("key") or "").strip() for x in all_custom_entries if str(x.get("key") or "").strip()]
-    columns = [
-      "id", "date", "sku", "alias", *tx_custom_columns, "type", "qty",
-      "purchase_unit_cost", "sale_unit_price",
-      "purchase_total_cost", "prev_avg_cost",
-      "onhand_qty", "avg_cost_after",
-      "cogs", "onhand_cost", "sales_rev", "gross_profit",
-      "note",
-    ]
+    tx_builtin_columns = self._get_visible_builtin_keys(FIELD_SCOPE_TX_TABLE)
+    alias_idx = tx_builtin_columns.index("alias") if "alias" in tx_builtin_columns else min(len(tx_builtin_columns), 3)
+    columns = tx_builtin_columns[:alias_idx + 1] + tx_custom_columns + tx_builtin_columns[alias_idx + 1:]
 
     self.tx_tree = ttk.Treeview(
       table_frame,
@@ -3137,7 +3191,7 @@ class InventoryApp(ctk.CTk):
 
     self.alias_tree = ttk.Treeview(
       table_frame,
-      columns=["sku", "name"],
+      columns=self._get_visible_builtin_keys(FIELD_SCOPE_ALIAS_TABLE),
       show="headings",
       height=18,
       selectmode="extended",
@@ -3165,10 +3219,10 @@ class InventoryApp(ctk.CTk):
     self.alias_tree.tag_configure("even", background=_ctk_color(ctk.ThemeManager.theme["CTkFrame"]["fg_color"]))
 
     heading_gutter = "  "
-    self.alias_tree.heading("sku", text=f"SKU{heading_gutter}", anchor="w")
-    self.alias_tree.heading("name", text="Name", anchor="w")
-    self.alias_tree.column("sku", width=240, minwidth=80, anchor="w", stretch=False)
-    self.alias_tree.column("name", width=520, minwidth=120, anchor="w", stretch=True)
+    for col in self._get_visible_builtin_keys(FIELD_SCOPE_ALIAS_TABLE):
+      text = "SKU" if col == "sku" else "Name"
+      self.alias_tree.heading(col, text=(f"{text}{heading_gutter}" if col != "name" else text), anchor="w")
+      self.alias_tree.column(col, width=(240 if col == "sku" else 520), minwidth=(80 if col == "sku" else 120), anchor="w", stretch=(col != "sku"))
 
     # ---------------------------------------------------------
     # Header hover tooltip (Aliases table)
@@ -3384,6 +3438,14 @@ class InventoryApp(ctk.CTk):
     self.entry_custom_schema_description.grid(row=1, column=1, columnspan=5, padx=6, pady=(0, 10), sticky="ew")
     apply_entry_shortcuts(self.entry_custom_schema_description)
 
+    self.var_field_enabled = tk.BooleanVar(value=True)
+    self.chk_field_enabled = ctk.CTkCheckBox(schema_frame, text="Enabled", variable=self.var_field_enabled, onvalue=True, offvalue=False)
+    self.chk_field_enabled.grid(row=1, column=6, columnspan=2, padx=6, pady=(0, 10), sticky="w")
+    try:
+      self.chk_field_enabled.configure(state="disabled")
+    except Exception:
+      pass
+
     btns = ctk.CTkFrame(schema_frame, fg_color="transparent")
     btns.grid(row=3, column=0, columnspan=9, padx=(12, 10), pady=(0, 10), sticky="e")
 
@@ -3428,7 +3490,7 @@ class InventoryApp(ctk.CTk):
 
     self.custom_schema_tree = ttk.Treeview(
       schema_table_frame,
-      columns=["key", "target", "type", "enum", "description"],
+      columns=["key", "scope", "kind", "type", "enabled", "capabilities", "enum", "description"],
       show="headings",
       height=16,
       selectmode="extended",
@@ -3443,13 +3505,19 @@ class InventoryApp(ctk.CTk):
     self.custom_schema_tree.tag_configure("odd",  background=_ctk_color(ctk.ThemeManager.theme["CTkFrame"]["top_fg_color"]))
     self.custom_schema_tree.tag_configure("even", background=_ctk_color(ctk.ThemeManager.theme["CTkFrame"]["fg_color"]))
     self.custom_schema_tree.heading("key", text="Field Name  ", anchor="w")
-    self.custom_schema_tree.heading("target", text="Target  ", anchor="w")
+    self.custom_schema_tree.heading("scope", text="Scope  ", anchor="w")
+    self.custom_schema_tree.heading("kind", text="Source  ", anchor="w")
     self.custom_schema_tree.heading("type", text="Type  ", anchor="w")
+    self.custom_schema_tree.heading("enabled", text="Enabled  ", anchor="center")
+    self.custom_schema_tree.heading("capabilities", text="Capabilities  ", anchor="w")
     self.custom_schema_tree.heading("enum", text="Enum Values  ", anchor="w")
     self.custom_schema_tree.heading("description", text="Description", anchor="w")
     self.custom_schema_tree.column("key", width=280, minwidth=120, anchor="w", stretch=True)
-    self.custom_schema_tree.column("target", width=140, minwidth=100, anchor="w", stretch=False)
+    self.custom_schema_tree.column("scope", width=140, minwidth=100, anchor="w", stretch=False)
+    self.custom_schema_tree.column("kind", width=100, minwidth=80, anchor="w", stretch=False)
     self.custom_schema_tree.column("type", width=120, minwidth=80, anchor="w", stretch=False)
+    self.custom_schema_tree.column("enabled", width=95, minwidth=75, anchor="center", stretch=False)
+    self.custom_schema_tree.column("capabilities", width=180, minwidth=120, anchor="w", stretch=False)
     self.custom_schema_tree.column("enum", width=260, minwidth=140, anchor="w", stretch=True)
     self.custom_schema_tree.column("description", width=420, minwidth=180, anchor="w", stretch=True)
 
@@ -3518,9 +3586,12 @@ class InventoryApp(ctk.CTk):
         pass
 
     _schema_header_tooltips = {
-      "key": "Field Name: custom field identifier shown in generated editors and columns.",
-      "target": "Target: whether the field belongs to transactions or aliases.",
+      "key": "Field Name: system or custom field identifier shown in generated editors and columns.",
+      "scope": "Scope: where the field appears.",
+      "kind": "Source: system fields are built in, custom fields are project-defined.",
       "type": "Type: string, number, boolean, or enum.",
+      "enabled": "Enabled: whether a removable built-in field is currently shown.",
+      "capabilities": "Capabilities: what this field definition can currently do safely.",
       "enum": "Enum Values: allowed choices for enum fields.",
       "description": "Description: tooltip text shown on generated custom field labels and inputs.",
     }
@@ -3936,13 +4007,16 @@ class InventoryApp(ctk.CTk):
       return
 
     alias_schema = self._get_custom_schema_for_target(CUSTOM_TARGET_ALIAS)
-    columns = ["sku", "name"] + [str(x.get("key") or "").strip() for x in alias_schema if str(x.get("key") or "").strip()]
+    builtin_columns = self._get_visible_builtin_keys(FIELD_SCOPE_ALIAS_TABLE)
+    columns = builtin_columns + [str(x.get("key") or "").strip() for x in alias_schema if str(x.get("key") or "").strip()]
     try:
       self.alias_tree["columns"] = columns
-      self.alias_tree.heading("sku", text="SKU  ", anchor="w")
-      self.alias_tree.heading("name", text=("Name  " if len(columns) > 2 else "Name"), anchor="w")
-      self.alias_tree.column("sku", width=240, minwidth=80, anchor="w", stretch=False)
-      self.alias_tree.column("name", width=300, minwidth=120, anchor="w", stretch=True)
+      if "sku" in columns:
+        self.alias_tree.heading("sku", text="SKU  ", anchor="w")
+        self.alias_tree.column("sku", width=240, minwidth=80, anchor="w", stretch=False)
+      if "name" in columns:
+        self.alias_tree.heading("name", text=("Name  " if len(columns) > len(builtin_columns) else "Name"), anchor="w")
+        self.alias_tree.column("name", width=300, minwidth=120, anchor="w", stretch=True)
       for idx, entry in enumerate(alias_schema):
         key = str(entry.get("key") or "").strip()
         if not key:
@@ -3965,7 +4039,11 @@ class InventoryApp(ctk.CTk):
         continue
       pad_l = "  "
       custom_values = dict(a.get("custom_fields") or {})
-      values_list: List[Any] = [f"{pad_l}{sku}", f"{pad_l}{name}"]
+      values_list: List[Any] = []
+      if "sku" in builtin_columns:
+        values_list.append(f"{pad_l}{sku}")
+      if "name" in builtin_columns:
+        values_list.append(f"{pad_l}{name}")
       for entry in alias_schema:
         key = str(entry.get("key") or "").strip()
         values_list.append(self._format_custom_field_value(entry, custom_values.get(key, None)))
@@ -4233,6 +4311,81 @@ class InventoryApp(ctk.CTk):
   # -----------------------------------------------------------------------------
   # Custom Fields
   # -----------------------------------------------------------------------------
+
+  def _scope_label(self, scope: str) -> str:
+    return {
+      FIELD_SCOPE_TX_TABLE: "Transactions",
+      FIELD_SCOPE_ALIAS_TABLE: "Aliases",
+      FIELD_SCOPE_OVERVIEW_INVENTORY: "Overview",
+      CUSTOM_TARGET_TRANSACTION: "Transactions",
+      CUSTOM_TARGET_ALIAS: "Aliases",
+    }.get(str(scope or "").strip(), str(scope or "").strip())
+
+  def _get_builtin_field_defs(self, scope: Optional[str] = None) -> List[Dict[str, Any]]:
+    scope_s = str(scope or "").strip()
+    items: List[Dict[str, Any]] = []
+    for entry in BUILTIN_FIELD_DEFS:
+      if scope_s and str(entry.get("scope") or "").strip() != scope_s:
+        continue
+      item = dict(entry)
+      override = dict((self.field_overrides or {}).get(str(item.get("id") or "").strip(), {}) or {})
+      enabled = bool(override.get("enabled", item.get("enabled", True)))
+      if not bool(item.get("removable")):
+        enabled = True
+      item["enabled"] = enabled
+      items.append(item)
+    return items
+
+  def _is_builtin_field_enabled(self, field_id: str) -> bool:
+    item = next((x for x in self._get_builtin_field_defs() if str(x.get("id") or "").strip() == str(field_id or "").strip()), None)
+    return bool((item or {}).get("enabled", True))
+
+  def _set_builtin_field_enabled(self, field_id: str, enabled: bool) -> None:
+    field_id_s = str(field_id or "").strip()
+    if not field_id_s:
+      return
+    builtin = next((x for x in BUILTIN_FIELD_DEFS if str(x.get("id") or "").strip() == field_id_s), None)
+    if not builtin:
+      return
+    if not bool(builtin.get("removable")):
+      enabled = True
+    self.field_overrides[field_id_s] = {"enabled": bool(enabled)}
+
+  def _get_visible_builtin_keys(self, scope: str) -> List[str]:
+    out: List[str] = []
+    for entry in self._get_builtin_field_defs(scope):
+      if bool(entry.get("enabled", True)):
+        key = str(entry.get("key") or "").strip()
+        if key:
+          out.append(key)
+    return out
+
+  def _get_all_field_registry_entries(self) -> List[Dict[str, Any]]:
+    rows: List[Dict[str, Any]] = []
+    for entry in self._get_builtin_field_defs():
+      caps = ["toggle" if bool(entry.get("removable")) else "locked"]
+      if bool(entry.get("enum_editable")):
+        caps.append("enum")
+      rows.append({
+        **dict(entry),
+        "kind": "system",
+        "capabilities": ", ".join(caps),
+      })
+    for entry in (self.custom_fields_schema or []):
+      key = str(entry.get("key") or "").strip()
+      if not key:
+        continue
+      rows.append({
+        **dict(entry),
+        "id": f"custom:{key}",
+        "label": key,
+        "scope": self._scope_label(self._normalize_custom_target(entry.get("target"))),
+        "enabled": True,
+        "source": "custom",
+        "kind": "custom",
+        "capabilities": "rename, reorder, delete",
+      })
+    return rows
 
   def _get_custom_schema_for_target(self, target: str) -> List[Dict[str, Any]]:
     target_norm = self._normalize_custom_target(target)
@@ -4635,25 +4788,46 @@ class InventoryApp(ctk.CTk):
       raise ValueError("Enum fields require at least one enum value")
     return {"key": key, "target": target, "type": dtype, "description": description, "enum": enum_vals}
 
-  def _get_selected_custom_schema_keys(self) -> List[str]:
+  def _get_selected_field_ids(self) -> List[str]:
     if not hasattr(self, "custom_schema_tree"):
       return []
     out: List[str] = []
     for iid in (self.custom_schema_tree.selection() or []):
-      key = str(iid or "").strip()
+      field_id = str(iid or "").strip()
+      if field_id:
+        out.append(field_id)
+    return sorted(set(out), key=lambda x: x.lower())
+
+  def _get_selected_custom_schema_keys(self) -> List[str]:
+    out: List[str] = []
+    for field_id in self._get_selected_field_ids():
+      if not field_id.startswith("custom:"):
+        continue
+      key = field_id.split(":", 1)[1].strip()
       if key:
         out.append(key)
     return sorted(set(out), key=lambda x: x.lower())
 
   def _load_selected_custom_schema_into_form(self) -> None:
-    keys = self._get_selected_custom_schema_keys()
-    if len(keys) != 1:
+    field_ids = self._get_selected_field_ids()
+    if len(field_ids) != 1:
+      try:
+        self.entry_custom_schema_key.configure(state="normal")
+        self.entry_custom_schema_description.configure(state="normal")
+        self.opt_custom_schema_target.configure(state="normal")
+        self.opt_custom_schema_type.configure(state="normal")
+        self.btn_custom_enum_edit.configure(state="normal")
+        self.chk_field_enabled.configure(state="disabled")
+      except Exception:
+        pass
       return
-    entry = dict(self._custom_field_schema_map.get(keys[0]) or {})
+    field_id = field_ids[0]
+    entry = dict(self._field_registry_map.get(field_id) or {})
     self.var_custom_schema_key.set(str(entry.get("key") or ""))
     self.var_custom_schema_target.set(self._normalize_custom_target(entry.get("target")))
     self.var_custom_schema_type.set(self._normalize_custom_type(entry.get("type")))
     self.var_custom_schema_description.set(str(entry.get("description") or ""))
+    self.var_field_enabled.set(bool(entry.get("enabled", True)))
     self._custom_schema_enum_values = [str(x) for x in (entry.get("enum") or []) if str(x).strip()]
     self._refresh_custom_schema_enum_summary()
     try:
@@ -4671,6 +4845,17 @@ class InventoryApp(ctk.CTk):
         self.opt_custom_schema_type.set(self.var_custom_schema_type.get())
       except Exception:
         pass
+    is_custom = str(entry.get("kind") or "") == "custom"
+    is_removable_builtin = bool(entry.get("removable"))
+    try:
+      self.entry_custom_schema_key.configure(state=("normal" if is_custom else "disabled"))
+      self.entry_custom_schema_description.configure(state=("normal" if is_custom else "disabled"))
+      self.opt_custom_schema_target.configure(state=("normal" if is_custom else "disabled"))
+      self.opt_custom_schema_type.configure(state=("normal" if is_custom else "disabled"))
+      self.btn_custom_enum_edit.configure(state=("normal" if is_custom else "disabled"))
+      self.chk_field_enabled.configure(state=("normal" if is_removable_builtin else "disabled"))
+    except Exception:
+      pass
     try:
       getattr(self, "_sync_custom_schema_enum_state", lambda: None)()
     except Exception:
@@ -4678,11 +4863,15 @@ class InventoryApp(ctk.CTk):
 
   def _sync_custom_schema_update_selected_state(self) -> None:
     has_project = bool(self.project_data_path)
-    sel_count = len(self._get_selected_custom_schema_keys())
-    self._set_ctk_button_enabled(getattr(self, "btn_custom_schema_update", None), bool(has_project and sel_count == 1))
-    self._set_ctk_button_enabled(getattr(self, "btn_custom_schema_delete", None), bool(has_project and sel_count >= 1))
-    self._set_ctk_button_enabled(getattr(self, "btn_custom_schema_up", None), bool(has_project and sel_count == 1))
-    self._set_ctk_button_enabled(getattr(self, "btn_custom_schema_down", None), bool(has_project and sel_count == 1))
+    field_ids = self._get_selected_field_ids()
+    sel_count = len(field_ids)
+    entry = dict(self._field_registry_map.get(field_ids[0]) or {}) if sel_count == 1 else {}
+    is_custom = bool(entry) and str(entry.get("kind") or "") == "custom"
+    can_toggle_builtin = bool(entry) and str(entry.get("kind") or "") == "system" and bool(entry.get("removable"))
+    self._set_ctk_button_enabled(getattr(self, "btn_custom_schema_update", None), bool(has_project and sel_count == 1 and (is_custom or can_toggle_builtin)))
+    self._set_ctk_button_enabled(getattr(self, "btn_custom_schema_delete", None), bool(has_project and ((sel_count >= 1 and all(x.startswith("custom:") for x in field_ids)) or can_toggle_builtin)))
+    self._set_ctk_button_enabled(getattr(self, "btn_custom_schema_up", None), bool(has_project and sel_count == 1 and is_custom))
+    self._set_ctk_button_enabled(getattr(self, "btn_custom_schema_down", None), bool(has_project and sel_count == 1 and is_custom))
 
   def _move_selected_custom_schema(self, direction: int) -> None:
     if not self.project_data_path:
@@ -4704,9 +4893,9 @@ class InventoryApp(ctk.CTk):
     self.custom_fields_schema = items
     self._save_and_refresh(schema_changed=True)
     try:
-      self.custom_schema_tree.selection_set(key)
-      self.custom_schema_tree.focus(key)
-      self.custom_schema_tree.see(key)
+      self.custom_schema_tree.selection_set(f"custom:{key}")
+      self.custom_schema_tree.focus(f"custom:{key}")
+      self.custom_schema_tree.see(f"custom:{key}")
     except Exception:
       pass
 
@@ -4949,22 +5138,29 @@ class InventoryApp(ctk.CTk):
 
   def _refresh_custom_schema_ui(self) -> None:
     self._rebuild_custom_field_schema_map()
+    self._field_registry_map = {}
     if hasattr(self, "custom_schema_tree"):
       try:
         self.custom_schema_tree.delete(*self.custom_schema_tree.get_children())
       except Exception:
         pass
-      for i, entry in enumerate(self.custom_fields_schema or []):
-        key = str(entry.get("key") or "").strip()
+      for i, entry in enumerate(self._get_all_field_registry_entries()):
+        field_id = str(entry.get("id") or "").strip()
+        key = str(entry.get("label") or entry.get("key") or "").strip()
         values = (
           f"  {key}",
-          self._normalize_custom_target(entry.get("target")),
+          self._scope_label(entry.get("scope")) if str(entry.get("kind") or "") == "system" else str(entry.get("scope") or ""),
+          str(entry.get("source") or entry.get("kind") or ""),
           self._normalize_custom_type(entry.get("type")),
+          "Yes" if bool(entry.get("enabled", True)) else "No",
+          str(entry.get("capabilities") or ""),
           ", ".join([str(x) for x in (entry.get("enum") or [])]),
           str(entry.get("description") or ""),
         )
         tag = "even" if (i % 2) == 0 else "odd"
-        self.custom_schema_tree.insert("", "end", iid=key, values=values, tags=(tag,))
+        if field_id:
+          self._field_registry_map[field_id] = dict(entry)
+          self.custom_schema_tree.insert("", "end", iid=field_id, values=values, tags=(tag,))
     self._refresh_tx_custom_fields_editor()
     self._refresh_alias_custom_fields_editor()
     self._sync_custom_schema_update_selected_state()
@@ -4988,9 +5184,9 @@ class InventoryApp(ctk.CTk):
       "type": self._normalize_custom_type(entry.get("type")),
     })
     try:
-      self.custom_schema_tree.selection_set(entry["key"])
-      self.custom_schema_tree.focus(entry["key"])
-      self.custom_schema_tree.see(entry["key"])
+      self.custom_schema_tree.selection_set(f"custom:{entry['key']}")
+      self.custom_schema_tree.focus(f"custom:{entry['key']}")
+      self.custom_schema_tree.see(f"custom:{entry['key']}")
     except Exception:
       pass
 
@@ -4998,6 +5194,28 @@ class InventoryApp(ctk.CTk):
     if not self.project_data_path:
       Log.error(self.LOG_TAG, "Update custom field blocked: no project selected.")
       messagebox.showerror("Project", "Select a Project Directory first.")
+      return
+    field_ids = self._get_selected_field_ids()
+    if not field_ids:
+      Log.warn(self.LOG_TAG, "Update custom field requested with no selection.")
+      messagebox.showinfo("Update", "Select a field row first.")
+      return
+    if len(field_ids) != 1:
+      Log.warn(self.LOG_TAG, "Update custom field requires single selection.", {"selected_count": len(field_ids)})
+      messagebox.showwarning("Update", "Please select exactly ONE field row to update.")
+      return
+    field_id = field_ids[0]
+    field_entry = dict(self._field_registry_map.get(field_id) or {})
+    if str(field_entry.get("kind") or "") == "system":
+      self._set_builtin_field_enabled(field_id, bool(self.var_field_enabled.get()))
+      self._save_and_refresh(schema_changed=True)
+      Log.ok(self.LOG_TAG, "Updated built-in field visibility.", {"id": field_id, "enabled": bool(self.var_field_enabled.get())})
+      try:
+        self.custom_schema_tree.selection_set(field_id)
+        self.custom_schema_tree.focus(field_id)
+        self.custom_schema_tree.see(field_id)
+      except Exception:
+        pass
       return
     keys = self._get_selected_custom_schema_keys()
     if not keys:
@@ -5041,9 +5259,9 @@ class InventoryApp(ctk.CTk):
     self._save_and_refresh(schema_changed=True)
     Log.ok(self.LOG_TAG, "Updated custom field.", {"from": old_key, "to": str(entry.get("key") or old_key)})
     try:
-      self.custom_schema_tree.selection_set(entry["key"])
-      self.custom_schema_tree.focus(entry["key"])
-      self.custom_schema_tree.see(entry["key"])
+      self.custom_schema_tree.selection_set(f"custom:{entry['key']}")
+      self.custom_schema_tree.focus(f"custom:{entry['key']}")
+      self.custom_schema_tree.see(f"custom:{entry['key']}")
     except Exception:
       pass
 
@@ -5052,11 +5270,24 @@ class InventoryApp(ctk.CTk):
       Log.error(self.LOG_TAG, "Delete custom fields blocked: no project selected.")
       messagebox.showerror("Project", "Select a Project Directory first.")
       return
+    field_ids = self._get_selected_field_ids()
     keys = self._get_selected_custom_schema_keys()
-    if not keys:
+    if not field_ids:
       Log.warn(self.LOG_TAG, "Delete custom fields requested with no selection.")
-      messagebox.showinfo("Delete", "Select one or more custom field rows first.")
+      messagebox.showinfo("Delete", "Select one or more field rows first.")
       return
+    if len(field_ids) == 1:
+      field_entry = dict(self._field_registry_map.get(field_ids[0]) or {})
+      if str(field_entry.get("kind") or "") == "system":
+        if not bool(field_entry.get("removable")):
+          messagebox.showwarning("Delete", "That built-in field is locked.")
+          return
+        if not messagebox.askyesno("Hide Built-in Field", f"Hide built-in field '{field_entry.get('label')}'?"):
+          return
+        self._set_builtin_field_enabled(field_ids[0], False)
+        self._save_and_refresh(schema_changed=True)
+        Log.warn(self.LOG_TAG, "Disabled built-in field.", {"id": field_ids[0]})
+        return
     preview = ", ".join(keys[:8])
     if len(keys) > 8:
       preview += f", ... (+{len(keys) - 8} more)"
@@ -5223,14 +5454,9 @@ class InventoryApp(ctk.CTk):
 
     all_custom_entries = self._get_all_custom_schema_in_display_order()
     tx_custom_columns = [str(x.get("key") or "").strip() for x in all_custom_entries if str(x.get("key") or "").strip()]
-    columns = [
-      "id", "date", "sku", "alias", *tx_custom_columns, "type", "qty",
-      "purchase_unit_cost", "sale_unit_price",
-      "purchase_total_cost", "prev_avg_cost",
-      "onhand_qty", "avg_cost_after",
-      "cogs", "onhand_cost", "sales_rev", "gross_profit",
-      "note",
-    ]
+    tx_builtin_columns = self._get_visible_builtin_keys(FIELD_SCOPE_TX_TABLE)
+    alias_idx = tx_builtin_columns.index("alias") if "alias" in tx_builtin_columns else min(len(tx_builtin_columns), 3)
+    columns = tx_builtin_columns[:alias_idx + 1] + tx_custom_columns + tx_builtin_columns[alias_idx + 1:]
     headings = {
       "id": "ID",
       "date": "Date",
@@ -5311,32 +5537,35 @@ class InventoryApp(ctk.CTk):
       tx_custom_values = dict(r.get("custom_fields") or {})
       alias_item = next((a for a in (self.aliases_list or []) if str(a.get("sku") or "").strip() == sku), None)
       alias_custom_values = dict((alias_item or {}).get("custom_fields") or {})
-      values_list: List[Any] = [
-        r["id"],
-        f"{pad_l}{r['date']}",
-        f"{pad_l}{sku}",
-        f"{pad_l}{alias}" if alias else "",
-      ]
+      builtin_value_map = {
+        "id": r["id"],
+        "date": f"{pad_l}{r['date']}",
+        "sku": f"{pad_l}{sku}",
+        "alias": f"{pad_l}{alias}" if alias else "",
+        "type": r["type"],
+        "qty": r["qty"],
+        "purchase_unit_cost": money(r["purchase_unit_cost"]) if r["type"] == TX_PURCHASE else "",
+        "sale_unit_price": money(r["sale_unit_price"]) if r["type"] == TX_SALE else "",
+        "purchase_total_cost": money(r["purchase_total_cost"]) if r["type"] == TX_PURCHASE else money(0.0),
+        "prev_avg_cost": money(r["prev_avg_cost"]),
+        "onhand_qty": r["onhand_qty"],
+        "avg_cost_after": money(r["avg_cost_after"]),
+        "cogs": money(r["cogs"]),
+        "onhand_cost": money(r["onhand_cost"]),
+        "sales_rev": money(r["sales_rev"]),
+        "gross_profit": money(r["gross_profit"]),
+        "note": f"{pad_l}{(r['note'] or '')}" if (r["note"] or "") else "",
+      }
+      values_list: List[Any] = []
+      for col in tx_builtin_columns[:alias_idx + 1]:
+        values_list.append(builtin_value_map.get(col, ""))
       for entry in self._get_all_custom_schema_in_display_order():
         key = str(entry.get("key") or "").strip()
         target = self._normalize_custom_target(entry.get("target"))
         source_values = tx_custom_values if target == CUSTOM_TARGET_TRANSACTION else alias_custom_values
         values_list.append(self._format_custom_field_value(entry, source_values.get(key, None)))
-      values_list.extend([
-        r["type"],
-        r["qty"],
-        money(r["purchase_unit_cost"]) if r["type"] == TX_PURCHASE else "",
-        money(r["sale_unit_price"]) if r["type"] == TX_SALE else "",
-        money(r["purchase_total_cost"]) if r["type"] == TX_PURCHASE else money(0.0),
-        money(r["prev_avg_cost"]),
-        r["onhand_qty"],
-        money(r["avg_cost_after"]),
-        money(r["cogs"]),
-        money(r["onhand_cost"]),
-        money(r["sales_rev"]),
-        money(r["gross_profit"]),
-        f"{pad_l}{(r['note'] or '')}" if (r["note"] or "") else "",
-      ])
+      for col in tx_builtin_columns[alias_idx + 1:]:
+        values_list.append(builtin_value_map.get(col, ""))
       values = tuple(values_list)
 
       # Zebra striping + "error" tint when inventory goes negative after this row
@@ -5392,7 +5621,9 @@ class InventoryApp(ctk.CTk):
     else:
       alias_custom_entries = self._get_custom_schema_for_target(CUSTOM_TARGET_ALIAS)
       custom_cols = [str(x.get("key") or "").strip() for x in alias_custom_entries if str(x.get("key") or "").strip()]
-      columns = ["sku", "alias"] + custom_cols + ["onhand_qty", "avg_cost", "onhand_cost", "last_tx_date", "last_sale_price", "status"]
+      builtin_cols = self._get_visible_builtin_keys(FIELD_SCOPE_OVERVIEW_INVENTORY)
+      alias_idx = builtin_cols.index("alias") if "alias" in builtin_cols else min(len(builtin_cols), 2)
+      columns = builtin_cols[:alias_idx + 1] + custom_cols + builtin_cols[alias_idx + 1:]
       headings = {
         "sku": "SKU",
         "alias": "Alias",
@@ -5555,23 +5786,29 @@ class InventoryApp(ctk.CTk):
 
       alias = self._get_alias_for_sku(str(s.get("sku") or "").strip())
 
-      values_list: List[Any] = [
-        f"{pad_l}{s['sku']}",
-        f"{pad_l}{alias}" if alias else "",
-      ]
+      values_list: List[Any] = []
+      overview_builtin_cols = self._get_visible_builtin_keys(FIELD_SCOPE_OVERVIEW_INVENTORY)
+      if "sku" in overview_builtin_cols:
+        values_list.append(f"{pad_l}{s['sku']}")
+      if "alias" in overview_builtin_cols:
+        values_list.append(f"{pad_l}{alias}" if alias else "")
       alias_item = next((a for a in (self.aliases_list or []) if str(a.get("sku") or "").strip() == str(s.get("sku") or "").strip()), None)
       alias_custom_values = dict((alias_item or {}).get("custom_fields") or {})
       for entry in self._get_custom_schema_for_target(CUSTOM_TARGET_ALIAS):
         key = str(entry.get("key") or "").strip()
         values_list.append(self._format_custom_field_value(entry, alias_custom_values.get(key, None)))
-      values_list.extend([
-        s["onhand_qty"],
-        money(s["avg_cost"]),
-        money(s["onhand_cost"]),
-        f"{pad_l}{s['last_tx_date']}" if s["last_tx_date"] else "",
-        money(s["last_sale_price"]) if s["last_sale_price"] else "",
-        s["status"],
-      ])
+      builtin_value_map = {
+        "onhand_qty": s["onhand_qty"],
+        "avg_cost": money(s["avg_cost"]),
+        "onhand_cost": money(s["onhand_cost"]),
+        "last_tx_date": f"{pad_l}{s['last_tx_date']}" if s["last_tx_date"] else "",
+        "last_sale_price": money(s["last_sale_price"]) if s["last_sale_price"] else "",
+        "status": s["status"],
+      }
+      for col in overview_builtin_cols:
+        if col in ("sku", "alias"):
+          continue
+        values_list.append(builtin_value_map.get(col, ""))
       values = tuple(values_list)
 
       is_even = (i % 2) == 0
@@ -5638,6 +5875,7 @@ class InventoryApp(ctk.CTk):
     else:
       alias_custom_entries = self._get_custom_schema_for_target(CUSTOM_TARGET_ALIAS)
       custom_headers = [str(x.get("key") or "").strip() for x in alias_custom_entries if str(x.get("key") or "").strip()]
+      overview_builtin_headers = self._get_visible_builtin_keys(FIELD_SCOPE_OVERVIEW_INVENTORY)
       data_rows = []
       for sku in sorted(overview.keys()):
         s = overview[sku]
@@ -5657,7 +5895,8 @@ class InventoryApp(ctk.CTk):
           key = str(entry.get("key") or "").strip()
           row[key] = self._format_custom_field_value(entry, alias_custom_values.get(key, None))
         data_rows.append(row)
-      headers = ["sku", "alias"] + custom_headers + ["onhand_qty", "avg_cost", "onhand_cost", "last_tx_date", "last_sale_price", "status"]
+      alias_idx = overview_builtin_headers.index("alias") if "alias" in overview_builtin_headers else min(len(overview_builtin_headers), 2)
+      headers = overview_builtin_headers[:alias_idx + 1] + custom_headers + overview_builtin_headers[alias_idx + 1:]
 
     try:
       with open(path, "w", encoding="utf-8", newline="") as f:
@@ -5772,16 +6011,10 @@ class InventoryApp(ctk.CTk):
 
     rows, _ = self.engine.compute(self.transactions)
 
-    headers = [
-      "id","date","sku","alias",
-      *[str(x.get("key") or "").strip() for x in self._get_all_custom_schema_in_display_order() if str(x.get("key") or "").strip()],
-      "type","qty",
-      "purchase_unit_cost","sale_unit_price",
-      "purchase_total_cost","prev_avg_cost",
-      "onhand_qty","avg_cost_after",
-      "cogs","onhand_cost","sales_rev","gross_profit",
-      "note"
-    ]
+    tx_custom_headers = [str(x.get("key") or "").strip() for x in self._get_all_custom_schema_in_display_order() if str(x.get("key") or "").strip()]
+    tx_builtin_headers = self._get_visible_builtin_keys(FIELD_SCOPE_TX_TABLE)
+    alias_idx = tx_builtin_headers.index("alias") if "alias" in tx_builtin_headers else min(len(tx_builtin_headers), 3)
+    headers = tx_builtin_headers[:alias_idx + 1] + tx_custom_headers + tx_builtin_headers[alias_idx + 1:]
 
     try:
       with open(path, "w", encoding="utf-8", newline="") as f:
