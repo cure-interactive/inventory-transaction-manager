@@ -369,7 +369,7 @@ SCRIPT_ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 APP_ICON_ICO_PATH = os.path.join(SCRIPT_ROOT_DIR, "icon.ico")
 APP_ICON_PNG_PATH = os.path.join(SCRIPT_ROOT_DIR, "icon.png")
-APP_SPLASH_ICON_PNG_PATH = os.path.join(SCRIPT_ROOT_DIR, "icon_512x512.png")
+APP_SPLASH_ICON_PNG_PATH = os.path.join(SCRIPT_ROOT_DIR, "icon.png")
 
 APP_CONFIG_FILENAME = "config.json"
 APP_CONFIG_PATH = os.path.join(SCRIPT_ROOT_DIR, APP_CONFIG_FILENAME)
