@@ -364,6 +364,11 @@ def apply_dark_ttk_scrollbar_style(root):
 
 TX_PURCHASE = "PURCHASE"
 TX_SALE = "SALE"
+TX_CAPITAL_CONTRIBUTION = "CAPITAL CONTRIBUTION"
+TX_CAPITAL_DISTRIBUTION = "CAPITAL DISTRIBUTION"
+TX_TYPES = [TX_PURCHASE, TX_SALE, TX_CAPITAL_CONTRIBUTION, TX_CAPITAL_DISTRIBUTION]
+TX_INCREASE_TYPES = {TX_PURCHASE, TX_CAPITAL_CONTRIBUTION}
+TX_DECREASE_TYPES = {TX_SALE, TX_CAPITAL_DISTRIBUTION}
 
 SCRIPT_ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -402,7 +407,7 @@ BUILTIN_FIELD_DEFS = [
   {"id": "builtin:tx_table:date", "key": "date", "label": "Date", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_STRING, "description": "Transaction date.", "enum": [], "enabled": True, "removable": False, "enum_editable": False, "source": "system"},
   {"id": "builtin:tx_table:sku", "key": "sku", "label": "SKU", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_STRING, "description": "Stock keeping unit identifier.", "enum": [], "enabled": True, "removable": False, "enum_editable": False, "source": "system"},
   {"id": "builtin:tx_table:alias", "key": "alias", "label": "Alias", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_ALIAS, "type": CUSTOM_TYPE_STRING, "description": "Alias name resolved from the SKU.", "enum": [], "enabled": True, "removable": True, "enum_editable": False, "source": "system"},
-  {"id": "builtin:tx_table:type", "key": "type", "label": "Type", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_ENUM, "description": "Transaction kind.", "enum": [TX_PURCHASE, TX_SALE], "enabled": True, "removable": False, "enum_editable": False, "source": "system"},
+  {"id": "builtin:tx_table:type", "key": "type", "label": "Type", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_ENUM, "description": "Transaction kind.", "enum": TX_TYPES, "enabled": True, "removable": False, "enum_editable": False, "source": "system"},
   {"id": "builtin:tx_table:qty", "key": "qty", "label": "Qty", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_NUMBER, "description": "Transaction quantity.", "enum": [], "enabled": True, "removable": False, "enum_editable": False, "source": "system"},
   {"id": "builtin:tx_table:purchase_unit_cost", "key": "purchase_unit_cost", "label": "Purchase Unit Cost", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_NUMBER, "description": "Per-unit purchase cost for PURCHASE rows.", "enum": [], "enabled": True, "removable": False, "enum_editable": False, "source": "system"},
   {"id": "builtin:tx_table:sale_unit_price", "key": "sale_unit_price", "label": "Sale Unit Price", "scope": FIELD_SCOPE_TX_TABLE, "target": CUSTOM_TARGET_TRANSACTION, "type": CUSTOM_TYPE_NUMBER, "description": "Per-unit sale price for SALE rows.", "enum": [], "enabled": True, "removable": False, "enum_editable": False, "source": "system"},
@@ -529,12 +534,12 @@ class InventoryEngine:
       sales_rev = 0.0
       gross_profit = 0.0
 
-      if t.type == TX_PURCHASE:
+      if t.type in TX_INCREASE_TYPES:
         purchase_total_cost = float(t.qty) * float(t.purchase_unit_cost)
         s["onhand_qty"] = prev_qty + int(t.qty)
         s["onhand_cost"] = prev_cost + purchase_total_cost
 
-      elif t.type == TX_SALE:
+      elif t.type in TX_DECREASE_TYPES:
         cogs = float(t.qty) * prev_avg
         sales_rev = float(t.qty) * float(t.sale_unit_price)
         gross_profit = sales_rev - cogs
@@ -1319,7 +1324,7 @@ class InventoryApp(ctk.CTk):
         return
 
       tip_by_tab = {
-        "Transactions": "Transactions: add/update/delete purchases & sales. This drives costing and the overview.",
+        "Transactions": "Transactions: add/update/delete purchases, sales, capital contributions, and capital distributions. This drives costing and the overview.",
         "Overview": "Overview: current inventory state (on-hand qty, WAC, totals) and optional summaries.",
         "Aliases": "Aliases: map friendly names to SKUs. Used in dropdowns and tables.",
         "Custom Fields": "Custom Fields: manage project custom fields plus built-in column visibility rules.",
@@ -1387,9 +1392,9 @@ class InventoryApp(ctk.CTk):
       (getattr(self, "entry_alias", None), "Alias: type to filter by alias name OR SKU; selecting an alias sets the SKU field."),
       (getattr(self, "btn_alias_drop", None), "Alias dropdown: show all aliases; typing filters by alias name OR SKU."),
 
-      (getattr(self, "opt_type", None), "Type: Purchase increases inventory; Sale reduces inventory."),
-      (getattr(self, "entry_qty", None), "Qty: number of units bought/sold."),
-      (getattr(self, "entry_unit_price", None), "Unit Price: purchase cost per unit (for Purchase) or sale price per unit (for Sale)."),
+      (getattr(self, "opt_type", None), "Type: Purchase and Capital Contribution increase inventory; Sale and Capital Distribution reduce inventory."),
+      (getattr(self, "entry_qty", None), "Qty: number of units moved by the transaction."),
+      (getattr(self, "entry_unit_price", None), "Unit Value: cost/value per unit for the selected transaction type."),
       (getattr(self, "entry_note", None), "Note: optional text for receipts, customer, order, etc."),
       (getattr(self, "btn_add", None), "Add: append a new transaction row. (Enter)"),
       (getattr(self, "btn_update", None), "Update Selected: edit the selected transaction row. Enabled only when exactly one row is selected."),
@@ -2322,9 +2327,9 @@ class InventoryApp(ctk.CTk):
     ctk.CTkLabel(form_row, text="Type").grid(row=0, column=6, padx=(14, 6), pady=10)
     self.opt_type = ctk.CTkOptionMenu(
       form_row,
-      values=[TX_PURCHASE, TX_SALE],
+      values=TX_TYPES,
       variable=self.var_type,
-      width=140,
+      width=200,
       command=lambda _: self._sync_type_fields(),
     )
     self.opt_type.grid(row=0, column=7, padx=6, pady=10)
@@ -3037,6 +3042,8 @@ class InventoryApp(ctk.CTk):
       "month_date": "Month Date (YYYY-MM-01).",
       "purchase_cost": "Purchase Cost: sum of purchase totals in the month.",
       "sales_amount": "Sales Amount: sum of sales revenue in the month.",
+      "contribution_amount": "Contribution Amount: sum of capital contribution values in the month.",
+      "distribution_amount": "Distribution Amount: sum of capital distribution values in the month.",
       "cogs": "COGS: sum of cost-of-goods-sold in the month.",
     }
     def _tree_on_hover(event) -> None:
@@ -4188,17 +4195,19 @@ class InventoryApp(ctk.CTk):
     cur = (self.var_unit_price.get() or "").strip()
     prev = getattr(self, "_last_type_for_unit", None)
 
-    if prev == TX_PURCHASE:
+    if prev in TX_INCREASE_TYPES:
       self.var_purchase_unit.set(cur or self.var_purchase_unit.get())
-    elif prev == TX_SALE:
+    elif prev in TX_DECREASE_TYPES:
       self.var_sale_unit.set(cur or self.var_sale_unit.get())
 
     # Swap label + displayed value.
-    if t == TX_PURCHASE:
-      self.lbl_unit_price.configure(text="Purchase Unit Cost")
+    if t in TX_INCREASE_TYPES:
+      label = "Contribution Unit Value" if t == TX_CAPITAL_CONTRIBUTION else "Purchase Unit Cost"
+      self.lbl_unit_price.configure(text=label)
       self.var_unit_price.set(self.var_purchase_unit.get())
     else:
-      self.lbl_unit_price.configure(text="Sale Unit Price")
+      label = "Distribution Unit Value" if t == TX_CAPITAL_DISTRIBUTION else "Sale Unit Price"
+      self.lbl_unit_price.configure(text=label)
       self.var_unit_price.set(self.var_sale_unit.get())
 
     self._last_type_for_unit = t
@@ -5355,12 +5364,12 @@ class InventoryApp(ctk.CTk):
     self.var_purchase_unit.set(f"{tx.purchase_unit_cost:.2f}")
     self.var_sale_unit.set(f"{tx.sale_unit_price:.2f}")
 
-    if tx.type == TX_PURCHASE:
+    if tx.type in TX_INCREASE_TYPES:
       self.var_unit_price.set(self.var_purchase_unit.get())
-      self._last_type_for_unit = TX_PURCHASE
+      self._last_type_for_unit = tx.type
     else:
       self.var_unit_price.set(self.var_sale_unit.get())
-      self._last_type_for_unit = TX_SALE
+      self._last_type_for_unit = tx.type
 
     self.var_note.set(tx.note or "")
     self._sync_type_fields()
@@ -5374,8 +5383,8 @@ class InventoryApp(ctk.CTk):
       raise ValueError("SKU is required")
 
     ttype = self.var_type.get()
-    if ttype not in (TX_PURCHASE, TX_SALE):
-      raise ValueError("Type must be PURCHASE or SALE")
+    if ttype not in TX_TYPES:
+      raise ValueError(f"Type must be one of: {', '.join(TX_TYPES)}")
 
     try:
       qty = int(self.var_qty.get())
@@ -5387,20 +5396,20 @@ class InventoryApp(ctk.CTk):
     purchase_unit = 0.0
     sale_unit = 0.0
 
-    if ttype == TX_PURCHASE:
+    if ttype in TX_INCREASE_TYPES:
       try:
         purchase_unit = float(self.var_unit_price.get())
       except:
-        raise ValueError("Purchase Unit Cost must be a number")
+        raise ValueError("Purchase/Contribution Unit Value must be a number")
       if purchase_unit < 0:
-        raise ValueError("Purchase Unit Cost must be >= 0")
+        raise ValueError("Purchase/Contribution Unit Value must be >= 0")
     else:
       try:
         sale_unit = float(self.var_unit_price.get())
       except:
-        raise ValueError("Sale Unit Price must be a number")
+        raise ValueError("Sale/Distribution Unit Value must be a number")
       if sale_unit < 0:
-        raise ValueError("Sale Unit Price must be >= 0")
+        raise ValueError("Sale/Distribution Unit Value must be >= 0")
 
     note = (self.var_note.get() or "").strip()
     custom_fields = self._read_target_custom_field_form("_tx_custom_field_widgets")
@@ -5544,9 +5553,9 @@ class InventoryApp(ctk.CTk):
         "alias": f"{pad_l}{alias}" if alias else "",
         "type": r["type"],
         "qty": r["qty"],
-        "purchase_unit_cost": money(r["purchase_unit_cost"]) if r["type"] == TX_PURCHASE else "",
-        "sale_unit_price": money(r["sale_unit_price"]) if r["type"] == TX_SALE else "",
-        "purchase_total_cost": money(r["purchase_total_cost"]) if r["type"] == TX_PURCHASE else money(0.0),
+        "purchase_unit_cost": money(r["purchase_unit_cost"]) if r["type"] in TX_INCREASE_TYPES else "",
+        "sale_unit_price": money(r["sale_unit_price"]) if r["type"] in TX_DECREASE_TYPES else "",
+        "purchase_total_cost": money(r["purchase_total_cost"]) if r["type"] in TX_INCREASE_TYPES else money(0.0),
         "prev_avg_cost": money(r["prev_avg_cost"]),
         "onhand_qty": r["onhand_qty"],
         "avg_cost_after": money(r["avg_cost_after"]),
@@ -5596,12 +5605,17 @@ class InventoryApp(ctk.CTk):
     mode = (self.ov_view_var.get() or "Inventory").strip()
 
     if mode == "Monthly":
-      columns = ["month", "month_date", "purchase_cost", "sales_amount", "cogs"]
+      columns = [
+        "month", "month_date", "purchase_cost", "sales_amount",
+        "contribution_amount", "distribution_amount", "cogs",
+      ]
       headings = {
         "month": "Month",
         "month_date": "Month Date",
         "purchase_cost": "Purchase Cost",
         "sales_amount": "Sales Amount",
+        "contribution_amount": "Contribution Amount",
+        "distribution_amount": "Distribution Amount",
         "cogs": "COGS",
       }
       widths = {
@@ -5609,6 +5623,8 @@ class InventoryApp(ctk.CTk):
         "month_date": 140,
         "purchase_cost": 170,
         "sales_amount": 170,
+        "contribution_amount": 190,
+        "distribution_amount": 190,
         "cogs": 150,
       }
       col_anchor = {
@@ -5616,6 +5632,8 @@ class InventoryApp(ctk.CTk):
         "month_date": "w",
         "purchase_cost": "e",
         "sales_amount": "e",
+        "contribution_amount": "e",
+        "distribution_amount": "e",
         "cogs": "e",
       }
     else:
@@ -5705,6 +5723,8 @@ class InventoryApp(ctk.CTk):
       - month_date: YYYY-MM-01
       - purchase_cost: sum(purchase_total_cost) for PURCHASE rows
       - sales_amount: sum(sales_rev) for SALE rows
+      - contribution_amount: sum(purchase_total_cost) for CAPITAL CONTRIBUTION rows
+      - distribution_amount: sum(sales_rev) for CAPITAL DISTRIBUTION rows
       - cogs: sum(cogs) for SALE rows
     """
     bucket: Dict[str, Dict[str, float]] = {}
@@ -5716,13 +5736,23 @@ class InventoryApp(ctk.CTk):
       month = d[:7]
 
       if month not in bucket:
-        bucket[month] = {"purchase_cost": 0.0, "sales_amount": 0.0, "cogs": 0.0}
+        bucket[month] = {
+          "purchase_cost": 0.0,
+          "sales_amount": 0.0,
+          "contribution_amount": 0.0,
+          "distribution_amount": 0.0,
+          "cogs": 0.0,
+        }
 
       if r.get("type") == TX_PURCHASE:
         bucket[month]["purchase_cost"] += float(r.get("purchase_total_cost") or 0.0)
       elif r.get("type") == TX_SALE:
         bucket[month]["sales_amount"] += float(r.get("sales_rev") or 0.0)
         bucket[month]["cogs"] += float(r.get("cogs") or 0.0)
+      elif r.get("type") == TX_CAPITAL_CONTRIBUTION:
+        bucket[month]["contribution_amount"] += float(r.get("purchase_total_cost") or 0.0)
+      elif r.get("type") == TX_CAPITAL_DISTRIBUTION:
+        bucket[month]["distribution_amount"] += float(r.get("sales_rev") or 0.0)
 
     out: List[Dict[str, Any]] = []
     for month in sorted(bucket.keys(), reverse=True):
@@ -5731,6 +5761,8 @@ class InventoryApp(ctk.CTk):
         "month_date": f"{month}-01",
         "purchase_cost": float(bucket[month]["purchase_cost"]),
         "sales_amount": float(bucket[month]["sales_amount"]),
+        "contribution_amount": float(bucket[month]["contribution_amount"]),
+        "distribution_amount": float(bucket[month]["distribution_amount"]),
         "cogs": float(bucket[month]["cogs"]),
       })
     return out
@@ -5840,6 +5872,8 @@ class InventoryApp(ctk.CTk):
         f"{pad_l}{r['month_date']}",
         money(float(r.get("purchase_cost") or 0.0)),
         money(float(r.get("sales_amount") or 0.0)),
+        money(float(r.get("contribution_amount") or 0.0)),
+        money(float(r.get("distribution_amount") or 0.0)),
         money(float(r.get("cogs") or 0.0)),
       )
 
@@ -5871,7 +5905,10 @@ class InventoryApp(ctk.CTk):
 
     if mode == "Monthly":
       data_rows = self._compute_monthly_report_rows(rows)
-      headers = ["month", "month_date", "purchase_cost", "sales_amount", "cogs"]
+      headers = [
+        "month", "month_date", "purchase_cost", "sales_amount",
+        "contribution_amount", "distribution_amount", "cogs",
+      ]
     else:
       alias_custom_entries = self._get_custom_schema_for_target(CUSTOM_TARGET_ALIAS)
       custom_headers = [str(x.get("key") or "").strip() for x in alias_custom_entries if str(x.get("key") or "").strip()]
