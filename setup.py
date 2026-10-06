@@ -85,6 +85,7 @@ def _run(cmd: t.List[str], *, cwd: str, print_only: bool) -> int:
     stdout=subprocess.PIPE,
     stderr=subprocess.STDOUT,
     text=True,
+    creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
   )
   if p.stdout:
     for line in p.stdout.splitlines():
