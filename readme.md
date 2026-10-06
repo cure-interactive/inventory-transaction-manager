@@ -1,5 +1,9 @@
 # Inventory Transaction Manager
 
+**Retired as of October 6, 2026.**
+
+See the [retirement record](sunset/INDEX.md).
+
 Desktop inventory transaction tracker with transaction entry, aliases, overview tables, custom fields, CSV export, and project-directory persistence.
 
 ## Requirements
