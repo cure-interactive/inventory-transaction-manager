@@ -6,11 +6,11 @@ Source, Git history and existing user data are preserved. Historical build and l
 
 ## Publication Status
 
-The retirement notices are prepared locally. GitHub service access was signed out during this work, so repository archival and a retirement issue could not yet be performed. The repository must be archived after the notices are published; no deletion is required.
+The retirement notices were published on `main` in commit `7252ef5f8d64f3428baee4e85ee66f0f53806efe`. GitHub service access was signed out during this work, so repository archival and a retirement issue could not yet be performed. Repository archival remains pending authenticated access; no deletion is required.
 
 ## Completion Checks
 
-- Publish the retirement notices on the repository's default branch.
+- Retirement notices are published on the repository's default branch.
 - Record the retirement on GitHub when authenticated access is available, preserving existing issues and source history.
 - Archive `cure-interactive/inventory-transaction-manager` on GitHub and verify its archived state.
 
